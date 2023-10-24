@@ -5,6 +5,64 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
 import { useBlockchainContext } from '../../context';
 
+const settings = {
+    infinite: true,
+    dots: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+        {
+            breakpoint: 4000,
+            settings: {
+                slidesToShow: 8,
+                slidesToScroll: 1,
+                infinite: false
+            }
+        },
+        {
+            breakpoint: 2000,
+            settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                infinite: false
+            }
+        },
+        {
+            breakpoint: 1600,
+            settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                infinite: false
+            }
+        },
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                infinite: false
+            }
+        },
+        {
+            breakpoint: 800,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                initialSlide: 2
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true
+            }
+        }
+    ]
+};
 
 export default function CarouselCollection() {
     const navigate = useNavigate();
@@ -47,7 +105,18 @@ export default function CarouselCollection() {
 
     return (
         <div>
-           
+            <Slider {...settings}>
+                {state.collectionNFT.slice(0, 4).map((item: any, index: number) => (
+                    <NFTItem
+                        key={item.id}
+                        id={index}
+                        title={item.metadata.name}
+                        coverImage={item.metadata.coverImage}
+                        address={item.address}
+                        nftsCount={item.items.length}
+                    />
+                ))}
+            </Slider>
         </div>
     );
 }
