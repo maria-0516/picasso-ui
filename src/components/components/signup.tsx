@@ -49,8 +49,48 @@ const SignUp = ({auth}: Props) => {
     };
 
     return (
-        <div>
-            
+        <div className="signin" style={{ margin: '20% auto' }}>
+            <img src="./img/logo.png" width={'130px'}></img>
+            <div className="signin-header">{translateLang('signup_title')}</div>
+            <div className="signin-body">
+                <input
+                    placeholder={translateLang('signin_txt1')}
+                    type={'text'}
+                    onChange={(e) => {
+                        userName(e.target.value);
+                    }}
+                ></input>
+                <input
+                    placeholder={translateLang('signup_txt1')}
+                    type="email"
+                    onChange={(e) => {
+                        userEmail(e.target.value);
+                    }}
+                ></input>
+                <input
+                    placeholder={translateLang('signin_txt2')}
+                    type="password"
+                    onChange={(e) => {
+                        passWord(e.target.value);
+                    }}
+                ></input>
+                <input
+                    placeholder={translateLang('signup_txt2')}
+                    type="password"
+                    onChange={(e) => {
+                        confirmPassword(e.target.value);
+                    }}
+                ></input>
+            </div>
+            <div className="signin-button" onClick={() => SignUp()}>
+                {translateLang('signup_title')}
+            </div>
+            <div>
+                {translateLang('signup_txt3')}{' '}
+                <span style={{ color: 'black', cursor: 'pointer' }} onClick={toSignIn}>
+                    {translateLang('signin_title')}
+                </span>
+            </div>
         </div>
     );
 };
