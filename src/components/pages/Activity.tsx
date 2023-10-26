@@ -31,7 +31,125 @@ const Acitivity = ({activitiesData}: Props) => {
     }, [activitiesData, renderCount]);
 
     return (
-        <div></div>
+        <div className="container">
+            <InfiniteScroll
+                dataLength={activeData.length}
+                next={() => setRenderCount(renderCount + 6)}
+                hasMore={hasMore}
+                loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
+                style={{ overflowX: 'hidden' }}>
+                <div className="row activity">
+                    <table>
+                        <tbody>
+                            {activeData.map((item: any, index: any) => (
+                                <tr key={index}>
+                                    <td>
+                                        <div className="active_info">
+                                            {(state as any).collectionNFT.map((collect: any) => {
+                                                if (collect.address === item.contractAddress) {
+                                                    return (
+                                                        <img
+                                                            key={index}
+                                                            src={
+                                                                collect.items?.[item.tokenID]?.metadata?.image || ''
+                                                            }
+                                                            alt=""
+                                                        />
+                                                    );
+                                                }
+                                            })}
+                                            <span>
+                                                <Link to={`/collection/${item.contractAddress}`}>
+                                                    {styledText(item.contractAddress)}
+                                                </Link>
+                                                <Link
+                                                    to={`/ItemDetail/${item.contractAddress}/${item.tokenID}`}>
+                                                    {(state as any).collectionNFT.map((collect: any) => {
+                                                        if (
+                                                            collect.address === item.contractAddress
+                                                        )
+                                                            return styledText(
+                                                                collect.items?.[item.tokenID]?.metadata?.name || ''
+                                                            );
+                                                    })}
+                                                </Link>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {item.event === 'OrderCreated' ? (
+                                            <StyledSpan style={{ color: 'purple' }}>
+                                                <BiPurchaseTag />
+                                                <p>{'Listed'}</p>
+                                            </StyledSpan>
+                                        ) : item.event === 'OrderCancelled' ? (
+                                            <StyledSpan style={{ color: 'red' }}>
+                                                <BiX />
+                                                <p>{'Unlisted'}</p>
+                                            </StyledSpan>
+                                        ) : item.event === 'BidCreated' ? (
+                                            <StyledSpan style={{ color: 'green' }}>
+                                                <BiCheckCircle />
+                                                <p>{'BidCreated'}</p>
+                                            </StyledSpan>
+                                        ) : (
+                                            <StyledSpan style={{ color: 'green' }}>
+                                                <BiCheckCircle />
+                                                <p>{'Purchased'}</p>
+                                            </StyledSpan>
+                                        )}
+                                    </td>
+                                    <td>
+                                        <p>
+                                            {parseFloat(Number(item.price).toFixed(2)) +
+                                                ' ' +
+                                                getCurrency(item.acceptedToken).label}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <Link to={`/${item.userAddress}`}>
+                                            <div className="active_user">
+                                                {(state as any).usersInfo[item.userAddress]?.image ? (
+                                                    <img
+                                                        src={
+                                                            (state as any).usersInfo[item.userAddress].image
+                                                        }
+                                                        alt=""
+                                                    />
+                                                ) : (
+                                                    <Jazzicon
+                                                        diameter={100}
+                                                        seed={Math.round(
+                                                            (Number(item.userAddress) /
+                                                                Number(
+                                                                    '0xffffffffffffffffffffffffffffffffffffffffff'
+                                                                )) *
+                                                                10000000
+                                                        )}
+                                                    />
+                                                )}
+                                                <p>
+                                                    {item.userAddress.slice(0, 6) +
+                                                        '...' +
+                                                        item.userAddress.slice(-4)}
+                                                </p>
+                                            </div>
+                                        </Link>
+                                    </td>
+                                    <td style={{ textAlign: 'right' }}>
+                                        <p>
+                                            {moment
+                                                .unix(item.timeStamp / 1000)
+                                                .format('DD MMM YYYY hh:mm A')}
+                                        </p>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </InfiniteScroll>
+        </div>
     );
 }
 

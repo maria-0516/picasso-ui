@@ -66,6 +66,151 @@ export default function Author() {
     };
 
     return (
-        <div></div>
+        <div style={{ paddingBottom: '500px' }}>
+            <GlobalStyles />
+
+            <div className="profile_image">
+                {state.usersInfo[address || '']?.bannerImage ? (
+                    <img src={state.usersInfo[address || '']?.bannerImage} alt="" />
+                ) : (
+                    <>
+                        <img
+                            src="img/background/bg-shape-1.png"
+                            alt=""
+                            style={{
+                                backgroundColor: `rgb(${
+                                    Math.round(
+                                        (Number(address || '') /
+                                            Number(
+                                                '0xffffffffffffffffffffffffffffffffffffffffff'
+                                            )) *
+                                            1000000
+                                    ) % 255
+                                }, ${
+                                    Math.round(
+                                        (Number(address || '') /
+                                            Number(
+                                                '0xffffffffffffffffffffffffffffffffffffffffff'
+                                            )) *
+                                            1000000
+                                    ) % 200
+                                }, ${
+                                    Math.round(
+                                        (Number(address || '') /
+                                            Number(
+                                                '0xffffffffffffffffffffffffffffffffffffffffff'
+                                            )) *
+                                            1000000
+                                    ) % 150
+                                })`
+                            }}
+                        />
+                    </>
+                )}
+                <div>
+                    {state.usersInfo[address || '']?.image ? (
+                        <img src={state.usersInfo[address || '']?.image || ''} alt="" />
+                    ) : (
+                        <Jazzicon
+                            diameter={100}
+                            seed={Math.round(
+                                (Number(address || '') /
+                                    Number('0xffffffffffffffffffffffffffffffffffffffffff')) *
+                                    10000000
+                            )}
+                        />
+                    )}
+                </div>
+            </div>
+            <div className="container">
+                <div className="spacer-40"></div>
+                <div className="profile_name">
+                    <div>
+                        <h2>{state.usersInfo[address || '']?.name || 'unknown'}</h2>
+                        <div
+                            onBlur={() =>
+                                setTimeout(() => {
+                                    setOpenShare(false);
+                                }, 100)
+                            }>
+                            <button onClick={() => setOpenShare(!openShare)}>
+                                <FaShareAlt />
+                            </button>
+                            {ownFlag && (
+                                <button onClick={() => navigate('/account/profile')}>
+                                    <FaCog />
+                                </button>
+                            )}
+                            {openShare && (
+                                <div>
+                                    <span>
+                                        <span onClick={HandleCopy}>
+                                            <FaCopy />
+                                            <p>Copy Link</p>
+                                        </span>
+                                        {state.usersInfo[address || '']?.link2 && (
+                                            <a href={state.usersInfo[address || '']?.link2}>
+                                                <FaFacebook />
+                                                <p>Share on Facebook</p>
+                                            </a>
+                                        )}
+                                        {state.usersInfo[address || '']?.link1 && (
+                                            <a href={state.usersInfo[address || '']?.link1}>
+                                                <FaTwitter />
+                                                <p>Share on Twitter</p>
+                                            </a>
+                                        )}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <span className="profile_wallet">
+                        <div onClick={HandleAddressCopy}>
+                            <span>{copyStatus}</span>
+                            {(address || '').slice(0, 6) + '...' + (address || '').slice(-4)}
+                        </div>
+                    </span>
+                    <span className="profile_username">
+                        {state.usersInfo[address || '']?.bio === '' ? '' : state.usersInfo[address || '']?.bio}
+                    </span>
+                </div>
+                <div className="spacer-20"></div>
+            </div>
+
+            <section className="container no-top">
+                <Tabs
+                    activeKey={openMenu}
+                    onSelect={(k) => {
+                        setOpenMenu(k || '');
+                    }}
+                    className="mb-3">
+                    <Tab eventKey="forsale" title="For sale">
+                        <div className="spacer-20"></div>
+                        <div id="zero0" className="onStep fadeIn">
+                            <SaledNFTs address={address || ''} />
+                        </div>
+                    </Tab>
+                    <Tab eventKey="collected" title="Collected">
+                        <div className="spacer-20"></div>
+                        <div id="zero1" className="onStep fadeIn">
+                            <MyNFT address={address || ''} />
+                        </div>
+                    </Tab>
+                    <Tab eventKey="activity" title="Activity">
+                        <div className="spacer-20"></div>
+                        <div id="zero2" className="onStep fadeIn">
+                            {activitiesData.length > 0 ? (
+                                <Acitivity activitiesData={activitiesData} />
+                            ) : (
+                                <h1 style={{ textAlign: 'center', padding: '73px' }}>No Data</h1>
+                            )}
+                        </div>
+                    </Tab>
+                </Tabs>
+            </section>
+
+            <Footer />
+        </div>
     );
 }

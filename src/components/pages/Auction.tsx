@@ -9,6 +9,24 @@ export default function Auction() {
     const [state, { translateLang }] = useBlockchainContext() as any;
 
     return (
-        <div></div>
+        <div style={{ paddingBottom: '500px' }}>
+            <section className="jumbotron breadcumb no-bg">
+                <div className="mainbreadcumb">
+                    <div className="container">
+                        <div className="row m-10-hor">
+                            <div className="col-12">
+                                <h1 className="text-center">{translateLang('onsale_title')}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="container">
+                <ColumnAuction collection={collection} id={id} />
+            </section>
+
+            <Footer />
+        </div>
     );
 }
