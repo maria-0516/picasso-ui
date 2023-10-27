@@ -93,6 +93,132 @@ export default function Collection() {
     };
 
     return (
-       <div></div>
+        <div style={{ paddingBottom: '500px' }}>
+            <section
+                id="profile_banner"
+                className="jumbotron breadcumb no-bg"
+                style={{
+                    backgroundImage: `url(${correctItem?.metadata?.coverImage})`
+                }}>
+                <div className="mainbreadcumb"></div>
+            </section>
+
+            {correctItem !== null ? (
+                <div>
+                    <section className="container d_coll no-top no-bottom">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="profile_avatar">
+                                    <div className="d_profile_img">
+                                        <img src={correctItem.metadata.image} alt="" />
+                                    </div>
+
+                                    <div className="profile_name">
+                                        <span>
+                                            <h2>{correctItem.metadata.name}</h2>
+                                            <span id="wallet" className="profile_wallet">
+                                                <span>
+                                                    {correctItem.address.slice(0, 20) + '...'}
+                                                </span>
+                                                <button
+                                                    id="btn_copy"
+                                                    title="Copy Text"
+                                                    onClick={handleaddressCopy}>
+                                                    <FaRegCopy />
+                                                </button>
+                                            </span>
+                                        </span>
+                                        <div>
+                                            {correctItem.metadata?.external_url1 != '' && (
+                                                <a href={correctItem.metadata?.external_url1}>
+                                                    <BsTwitter />
+                                                </a>
+                                            )}
+                                            {correctItem.metadata?.external_url2 != '' && (
+                                                <a href={correctItem.metadata?.external_url2}>
+                                                    <BsFacebook />
+                                                </a>
+                                            )}
+                                            {correctItem.metadata?.external_url3 != '' && (
+                                                <a href={correctItem.metadata?.external_url3}>
+                                                    <BsInstagram />
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="collection_info">
+                                        {/* <p className="text-center">
+                                                {translateLang('by')}{' '}
+                                                <b className="color">CLOUD9</b>
+                                            </p> */}
+                                        <div className="spacer-10"></div>
+                                        <span>
+                                            <div>
+                                                <h3>{correctItem.items.length}</h3>
+                                                <p>{translateLang('items')}</p>
+                                            </div>
+                                            <div>
+                                                <h3>{owners.length}</h3>
+                                                <p>{translateLang('owners')}</p>
+                                            </div>
+                                            <div>
+                                                <h3>{volumn}</h3>
+                                                <p>{'Volumn'}</p>
+                                            </div>
+                                            <div>
+                                                <h3>{floorPrice}</h3>
+                                                <p>{'Floor'}</p>
+                                            </div>
+                                            {/* <div>
+                                                    <h3>
+                                                        {isNaN(avgAmount)
+                                                            ? 0
+                                                            : avgAmount.toFixed(2)}
+                                                        K
+                                                    </h3>
+                                                    <p>{translateLang('prices')}</p>
+                                                </div> */}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="container no-top">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="items_filter">
+                                    <Tabs
+                                        activeKey={option1}
+                                        onSelect={(k) => {
+                                            setOption1(k || '');
+                                        }}
+                                        className="mb-3">
+                                        <Tab eventKey="OnSaled" title="For sale">
+                                            <div className="spacer-20"></div>
+                                            <ColumnZero correctItem={correctItem} />
+                                        </Tab>
+                                        <Tab eventKey="Owned" title="All nft">
+                                            <div className="spacer-20"></div>
+                                            <CoulmnOne correctItem={correctItem} />
+                                        </Tab>
+                                        <Tab eventKey="activity" title="Activity">
+                                            <div className="spacer-20"></div>
+                                            <Acitivity activitiesData={activitiesData} />
+                                        </Tab>
+                                    </Tabs>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            ) : (
+                'Loading...'
+            )}
+
+            <Footer />
+        </div>
     );
 }

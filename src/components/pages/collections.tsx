@@ -49,6 +49,54 @@ export default function Collections() {
     };
 
     return (
-        <div></div>
+        <div style={{ paddingBottom: '500px' }}>
+            <section className="jumbotron no-bg" style={{ paddingBottom: '30px' }}>
+                <div className="container">
+                    <h1>{translateLang('allcollection_title')}</h1>
+                </div>
+            </section>
+
+            <div className="container">
+                <div className="row">
+                    <table className="collections_table">
+                        <thead>
+                            <tr>
+                                <th style={{ padding: '0 30px' }}>#</th>
+                                <th>Collection</th>
+                                <th>Sales Volume</th>
+                                <th>Floor price</th>
+                                <th>Items</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {state.collectionNFT.map((item: any, index: any) => (
+                                <tr key={index} onClick={() => handle(item.address)}>
+                                    <td style={{ padding: '5px 30px' }}>{index + 1}</td>
+                                    <td>
+                                        <div className="collection_name">
+                                            <img
+                                                className="lazy"
+                                                src={item.metadata.image}
+                                                alt=""
+                                            />
+                                            <h4 className="card-title text-center">
+                                                {item.metadata.name}
+                                            </h4>
+                                        </div>
+                                    </td>
+                                    <td>{volumns[index]} FTM</td>
+                                    <td>{(floorPrice as any)[index]} FTM</td>
+                                    <td>{item.items.length}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="spacer-single"></div>
+            </div>
+
+            <Footer />
+        </div>
     );
 }
