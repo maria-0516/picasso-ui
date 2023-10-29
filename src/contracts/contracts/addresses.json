@@ -1,3 +1,12 @@
 {
-    
+    "ERC20": "",
+    "NFT": {
+        "NFT1": "",
+        "NFT2": "",
+        "NFT3": ""
+    },
+    "Marketplace": "",
+    "WETH": "",
+    "TestToken": "",
+    "StoreFront": ""
 }
